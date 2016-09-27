@@ -2,6 +2,7 @@ package mainGame;
 
 import java.awt.Dimension;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class GamePlay {
@@ -21,8 +22,10 @@ public class GamePlay {
 		
 		int placeRow=-1;
 		int placeCol=-1;
+		String catchString = "";
 		
-		do{
+		while(gameON){
+			drawBoard(myGame);
 			switch(turn){
 				case Piece.GREEN :
 					turn = Piece.RED;
@@ -40,11 +43,15 @@ public class GamePlay {
 					System.out.print("Please enter the column nr you want to play in: ");
 					placeCol = input.nextInt();
 					placeRow = myGame.firstEmptyRow(placeCol);
-					if(placeRow == Board.COLFULL) throw new ColumnIsFullException();
-					myGame.setPiece(placeRow, placeCol, turn);
-					rightInput=true;
-				}catch (InputMismatchException e){
 					
+					if(placeRow == Board.COLFULL) throw new ColumnIsFullException();
+					
+					myGame.setPiece(placeRow, placeCol, turn);
+					System.out.println("H÷÷÷R");
+					rightInput=true;
+				
+				}catch (InputMismatchException e){
+					catchString = input.nextLine();
 					rightInput=false;
 				}catch (ArrayIndexOutOfBoundsException e){
 					rightInput=false;
@@ -53,10 +60,22 @@ public class GamePlay {
 				}
 			}while(! rightInput);
 			
-			gameON = myGame.checkForWin(placeRow, placeCol, turn) ? false : true;
+			gameON =! myGame.checkForWin(placeRow, placeCol, turn);
 			
-		}while(gameON);
+		} // While loop end
 		System.out.println("Det ‰e slut");
 	}
+	
+	
+	public static void drawBoard(Board board){
+		for(int row=0; row<6; row++){
+			for(int col=0; col <7; col++){
+				System.out.print(board.getPiece(row, col));
+			}
+			System.out.println();
+		}
+		
+	}
+
 
 }

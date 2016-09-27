@@ -44,13 +44,20 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Will search from the buttom up and replace the first row that is empty.
+	 * If the column is full, this method will return COLFULL = -1;
+	 * @param col is the column of the board that will be checked
+	 * @return the row which first is empty
+	 */
 	public int firstEmptyRow(int col){
-		for(int tempRow = board.length; tempRow >= 0; tempRow--){
+		for(int tempRow = board.length-1; tempRow >= 0; tempRow--){
 			if(this.board[tempRow][col] == Piece.EMPTY){
+				System.out.println("I loopen");
 				return tempRow;
 			}
 		}
-		
+		System.out.println("Efterloop");
 		return COLFULL;
 	}
 	
@@ -58,6 +65,9 @@ public class Board {
 		this.board[row][col] = turn;
 	}
 	
+	public int getPiece(int row, int col){
+		return this.board[row][col];
+	}
 	
 	public boolean checkForWin(int row, int col, int turn){
 		
