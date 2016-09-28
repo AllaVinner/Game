@@ -35,7 +35,7 @@ public class CellPointer {
 		
 		for(int s=0; s<multi; s++){		 // multi is the number of possible wins on a row
 			if(s<= this.colIndex && this.colIndex <s+4){
-				this.indexArray[arrayCounter] = tempIndex;
+				this.indexArray[arrayCounter] = tempIndex+s;
 				arrayCounter++;
 			}
 		}
@@ -47,7 +47,7 @@ public class CellPointer {
 		
 		for(int s=0; s<multi; s++){		 // multi is the number of possible wins on a row
 			if(s<= this.rowIndex && this.rowIndex <s+4){
-				this.indexArray[arrayCounter] = tempIndex;
+				this.indexArray[arrayCounter] = tempIndex+s;
 				arrayCounter++;
 			}
 		}

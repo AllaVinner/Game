@@ -174,9 +174,8 @@ public class Board {
 		boardPanel.addMouseListener(lForMouse);
 		
 		while(mouseXClick<0){
-			System.out.println("ttt");
 			try {
-				Thread.sleep(200);
+				Thread.sleep(700);
 			} catch (InterruptedException e) {
 			}
 		}
