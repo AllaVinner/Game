@@ -1,4 +1,4 @@
-package mainGame;
+package AI;
 
 public class Tracker{
 

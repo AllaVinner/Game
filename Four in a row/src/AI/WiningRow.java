@@ -1,4 +1,6 @@
-package mainGame;
+package AI;
+
+import mainGame.Piece;
 
 public class WiningRow {
 
@@ -15,8 +17,9 @@ public class WiningRow {
 	public void pieceSet(int turn){
 		if(turn == this.occupation || this.occupation == Piece.EMPTY){
 			counter++;
+			this.occupation = turn;
 		}else{
-			counter=0;
+			counter++;
 			occupation = DEAD;
 		}
 	}

@@ -1,4 +1,4 @@
-package mainGame;
+package AI;
 
 public class CellPointer {
 	
@@ -25,16 +25,16 @@ public class CellPointer {
 	
 	public void giveArrayValue(){
 		int arrayCounter=0;
-		int multi;
+		int multi=0;
 		int tempIndex=0;
 		
 		//Win by row
 		multi=4;
-		tempIndex=ROWINDEX;
-		tempIndex+=multi*this.rowIndex;
+		tempIndex = ROWINDEX;
+		tempIndex += multi*this.rowIndex;
 		
 		for(int s=0; s<multi; s++){		 // multi is the number of possible wins on a row
-			if(s<= this.colIndex && this.colIndex <=s+4){
+			if(s<= this.colIndex && this.colIndex <s+4){
 				this.indexArray[arrayCounter] = tempIndex;
 				arrayCounter++;
 			}
@@ -46,7 +46,7 @@ public class CellPointer {
 		tempIndex+=multi*this.colIndex;
 		
 		for(int s=0; s<multi; s++){		 // multi is the number of possible wins on a row
-			if(s<= this.rowIndex && this.rowIndex <=s+4){
+			if(s<= this.rowIndex && this.rowIndex <s+4){
 				this.indexArray[arrayCounter] = tempIndex;
 				arrayCounter++;
 			}
