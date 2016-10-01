@@ -3,7 +3,8 @@ package mainGame;
 import java.awt.Dimension;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import AI.InformationHolder;
+
+import information.InformationHolder;
 
 
 public class GamePlay {
@@ -22,6 +23,7 @@ public class GamePlay {
 		int turn = Piece.EMPTY;
 		boolean gameON = true;
 		int moveNum=0;
+	
 		
 		while(gameON){
 
@@ -49,6 +51,8 @@ public class GamePlay {
 					break;
 					
 				}catch (ColumnIsFullException e){}
+
+					
 			}while(true);
 			
 			gameON =! myGame.checkForWin(placeRow, placeCol, turn);

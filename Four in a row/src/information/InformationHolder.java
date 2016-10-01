@@ -1,4 +1,4 @@
-package AI;
+package information;
 
 import java.awt.Dimension;
 
@@ -6,6 +6,7 @@ import mainGame.Piece;
 
 public class InformationHolder{
 	
+	public static final int [] [] VALUEBOARD = {{3,4,5,7,5,4,3} , {4,6,8,10,8,6,4} , {5,8,11,13,11,8,5} , {5,8,11,13,11,8,5} , {4,6,8,10,8,6,4} , {3,4,5,7,5,4,3}};
 	
 	private CellPointer[][] pointerMatrix;
 	private WiningRow [] winningArray;
@@ -36,12 +37,12 @@ public class InformationHolder{
 		
 		for(int tempRow=0; tempRow< numRow; tempRow++){
 			for(int tempCol=0; tempCol<numCol; tempCol++){
-				pointerMatrix[tempRow][tempCol] = new CellPointer( valueRow[tempRow] + valueColumn[tempCol] ,tempRow, tempCol);
+				pointerMatrix[tempRow][tempCol] = new CellPointer( VALUEBOARD[tempRow][tempCol],tempRow, tempCol);
 				pointerMatrix[tempRow][tempCol].giveArrayValue();
 			}
 		}
 		
-		winningArray = new WiningRow[CellPointer.RU_LD];
+		winningArray = new WiningRow[69];
 		
 		for(int i=0; i < winningArray.length; i++){
 			winningArray[i] = new WiningRow();
@@ -66,7 +67,7 @@ public class InformationHolder{
 			index = pointerMatrix[placeRow][placeCol].getIndexArray()[i];
 
 			if(winningArray[index].getOccupation() == Piece.EMPTY){
-				
+				System.out.println(index + "Detta var index");
 				switch (turn) {
 				case Piece.GREEN:
 					greenArray[1]++;
@@ -86,6 +87,7 @@ public class InformationHolder{
 				case Piece.RED:
 					redArray[winningArray[index].getCounter()]--;
 					redArray[winningArray[index].getCounter()+1]++;
+					break;
 				}
 				
 			}else if(winningArray[index].getOccupation() == -1*turn){
@@ -117,4 +119,12 @@ public class InformationHolder{
 		
 	}
 	
+	public void printIndexArray(int [] a){
+		for(int i =0;i < a.length; i++){
+			System.out.println("!!  : " + a[i]);
+		}
+	}
+	
+	
 } // class end
+

@@ -1,4 +1,4 @@
-package AI;
+package information;
 
 import mainGame.Piece;
 
@@ -8,6 +8,7 @@ public class WiningRow {
 	
 	private int occupation;
 	private int counter;
+	
 	
 	public WiningRow(){
 		this.counter=0;
