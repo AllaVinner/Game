@@ -100,6 +100,15 @@ public class Board {
 		return this.board[row][col];
 	}
 	
+	public int getHeight(){
+		return this.board.length;
+	}
+	
+	public int getWidth(){
+		return this.board[0].length;
+	}
+
+	
 	public JFrame getFrame(){
 		return boardFrame;
 	}

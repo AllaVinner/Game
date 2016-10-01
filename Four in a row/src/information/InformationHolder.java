@@ -125,6 +125,12 @@ public class InformationHolder{
 		}
 	}
 	
+	public int [] getGreenArray(){
+		return this.greenArray;
+	}
 	
+	public int [] getRedArray(){
+		return this.redArray;
+	}
 } // class end
 

@@ -16,7 +16,7 @@ public class GamePlay {
 		Dimension cell = new Dimension(100,100);
 
 		Board myGame = new Board(numRow, numCol, toWin, cell);
-		InformationHolder info = new InformationHolder(numRow, numCol, toWin, cell);
+		
 
 		int placeRow=-1;
 		int placeCol=-1;
@@ -47,7 +47,7 @@ public class GamePlay {
 					if(placeRow == Board.COLUMNFULL) throw new ColumnIsFullException();
 					
 					myGame.setPiece(placeRow, placeCol, turn);	
-					info.picePlayed(placeRow, placeCol, turn);
+					
 					break;
 					
 				}catch (ColumnIsFullException e){}
@@ -58,7 +58,6 @@ public class GamePlay {
 			gameON =! myGame.checkForWin(placeRow, placeCol, turn);
 			moveNum++;
 			myGame.getFrame().repaint();
-			info.printArray();
 			
 			if(moveNum == numCol*numRow){
 				gameON =false;
