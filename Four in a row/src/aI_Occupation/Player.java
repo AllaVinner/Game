@@ -33,30 +33,56 @@ public class Player {
 	
 	public int makeMove(){
 		int col=-1;
-		int tempValue =0;
+		int tempValue =-12222;
 		int bestValue =0;
 		int tempRow=0;
+		int [] tempGreenA = new int[this.greenArray.length];
+		int [] tempRedA = new int [ this.redArray.length];
+		
+		for(int i=0; i< tempGreenA.length;i++){
+			tempGreenA[i] = this.greenArray[i];
+			tempRedA[i] = this.redArray[i];
+		}
 		
 		for(int tempCol=0; tempCol <this.board.getWidth();tempCol++){
 			tempRow = this.board.firstEmptyRow(tempCol);
 			this.board.setPiece(tempRow, tempCol, Piece.RED);
+			this.info.picePlayed(tempRow, tempCol, Piece.RED);
+			
+//			System.out.println("Col nr " + tempCol + "ger dessa reultat.");
+//			this.info.printArray();
+			
+			tempValue =calculateBoardValue(this.info.getRedArray(), this.info.getGreenArray());
+			if(tempValue > bestValue){
+				bestValue = tempValue;
+				col = tempCol;
+			}
+			
+			for(int i=0; i < greenArray.length; i++){
+				System.out.println("Grön " + this.greenArray[i]);
+				System.out.println("Röd " + this.redArray[i]);
+			}
+			
+			this.board.setPiece(tempRow, tempCol, Piece.EMPTY);
+			this.info.picePlayed(tempRow, tempCol, Piece.EMPTY);
+			this.info.setGreenArray(tempGreenA);
+			this.info.setRedArray(tempRedA);
 		}
 		
-		
-		
+		tempRow = this.board.firstEmptyRow(col);
+		this.board.setPiece(tempRow, col, Piece.RED);
+		this.info.picePlayed(tempRow, col, Piece.RED);
+			
 		return col;
 		
 	}
 	
-	public void moveMade(int playedRow, int playedCol, int [] newGredA, int [] newRedA){
+	public void moveMade(int playedRow, int playedCol){
 		this.board.setPiece(playedRow, playedCol, Piece.GREEN);
-		
-		for(int i=0; i < this.redArray.length; i++){
-			this.greenArray[i] =newGredA[i];
-			this.redArray[i] =newRedA[i];
-		}
 		this.boardValue= calculateBoardValue(this.redArray, this.greenArray);
 		this.info.picePlayed(playedRow, playedCol, Piece.GREEN);
+		this.greenArray = this.info.getGreenArray();
+		this.redArray = this.info.getRedArray();
 		
 	}
 	

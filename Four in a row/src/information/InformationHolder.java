@@ -65,7 +65,7 @@ public class InformationHolder{
 		for(int i=0; i<length; i++){
 			
 			index = pointerMatrix[placeRow][placeCol].getIndexArray()[i];
-
+			
 			if(winningArray[index].getOccupation() == Piece.EMPTY){
 				System.out.println(index + "Detta var index");
 				switch (turn) {
@@ -132,5 +132,18 @@ public class InformationHolder{
 	public int [] getRedArray(){
 		return this.redArray;
 	}
+	
+	public void setGreenArray(int[] greenArray){
+		for(int i=0; i< greenArray.length; i++){
+			this.greenArray[i] =greenArray[i];
+		}
+	}
+	
+	public void setRedArray(int[] redArray){
+		for(int i=0; i< redArray.length; i++){
+			this.redArray[i] =redArray[i];
+		}
+	}
+
 } // class end
 
