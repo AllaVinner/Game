@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Board {
-	public static final int COLUMNFULL = -1;
-	public static final int COLIMNNOTFULL = 0;
+	public static final int COLUMNFULL = -113;
+	public static final int COLIMNNOTFULL = -117;
 	
 	private int mouseXClick;
 	private int mouseYClick;
@@ -26,7 +26,7 @@ public class Board {
 	
 	
 	
-	public Board(int numRow, int numCol, int toWin, Dimension cell){
+	public Board(int numRow, int numCol, int toWin, Dimension cell, boolean boardVisible){
 		this.board = new int [numRow] [numCol];
 		reset();
 
@@ -46,7 +46,7 @@ public class Board {
 	    boardFrame.getContentPane().add(BorderLayout.CENTER, boardPanel);
 
 	     
-		this.boardFrame.setVisible(true);
+		this.boardFrame.setVisible(boardVisible);
 	}
 	
 	
@@ -70,11 +70,9 @@ public class Board {
 	public int firstEmptyRow(int col){
 		for(int tempRow = board.length-1; tempRow >= 0; tempRow--){
 			if(this.board[tempRow][col] == Piece.EMPTY){
-				System.out.println("I loopen");
 				return tempRow;
 			}
 		}
-		System.out.println("Efterloop");
 		return COLUMNFULL;
 	}
 	
@@ -120,11 +118,10 @@ public class Board {
 		for(int temp=-this.toWin;temp<=toWin; temp++){				
 				try{
 					counter = this.board[row+temp][col] == turn ? counter+1:0;
-				}catch (ArrayIndexOutOfBoundsException e){
-					
-				}		
+				}catch (ArrayIndexOutOfBoundsException e){}		
 				
 				if(counter == toWin){
+					System.out.printf("Win by %s in row %d and col %d", "Torn", row,col);
 					return true;
 				}
 			}
@@ -134,11 +131,11 @@ public class Board {
 		for(int temp=-this.toWin;temp<=toWin; temp++){				
 			try{
 				counter = this.board[row][col+temp] == turn ? counter+1:0;
-			}catch (ArrayIndexOutOfBoundsException e){
-				
-			}		
+			}catch (ArrayIndexOutOfBoundsException e){}		
 			
 			if(counter == toWin){
+				System.out.printf("Win by %s in row %d and col %d", "Rad", row,col);
+				
 				return true;
 			}
 		}
@@ -149,11 +146,11 @@ public class Board {
 		for(int temp=-this.toWin;temp<=toWin; temp++){				
 			try{
 				counter = this.board[row+temp][col+temp] == turn ? counter+1:0;
-			}catch (ArrayIndexOutOfBoundsException e){
-				
-			}		
+			}catch (ArrayIndexOutOfBoundsException e){}		
 			
 			if(counter == toWin){
+				System.out.printf("Win by %s in row %d and col %d", "HU-> VN", row,col);
+				
 				return true;
 			}
 		}
@@ -163,11 +160,11 @@ public class Board {
 		for(int temp=-this.toWin;temp<=toWin; temp++){				
 			try{
 				counter = this.board[row+temp][col-temp] == turn ? counter+1:0;
-			}catch (ArrayIndexOutOfBoundsException e){
-				
-			}		
+			}catch (ArrayIndexOutOfBoundsException e){}		
 			
 			if(counter == toWin){
+				System.out.printf("Win by %s in row %d and col %d", "HN -> VU", row,col);
+				
 				return true;
 			}
 		}
@@ -259,6 +256,12 @@ public class Board {
 		}
 		
 	} // end of Listen for Keys
+	
+	public int [] [] getBoard(){
+		return this.board;
+	}
+	
+	
 	
 	
 }// end of main class

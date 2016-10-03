@@ -58,7 +58,7 @@ public class InformationHolder{
 	 * @param placeCol is the column which a piece just was laid.
 	 * @param turn. Which color the piece had
 	 */
-	public void picePlayed(int placeRow, int placeCol, int turn){
+	public void picePlayed(int placeRow, int placeCol, int turn, boolean winningRowChanges){
 		int length =pointerMatrix[placeRow][placeCol].getIndexArray().length;
 		int index=0;		
 
@@ -67,7 +67,6 @@ public class InformationHolder{
 			index = pointerMatrix[placeRow][placeCol].getIndexArray()[i];
 			
 			if(winningArray[index].getOccupation() == Piece.EMPTY){
-				System.out.println(index + "Detta var index");
 				switch (turn) {
 				case Piece.GREEN:
 					greenArray[1]++;
@@ -100,8 +99,9 @@ public class InformationHolder{
 				}
 			} // end if statement
 			
-			winningArray[index].pieceSet(turn);
-			
+			if(winningRowChanges){
+				winningArray[index].pieceSet(turn);
+			}
 
 		} // for end
 	} // method end

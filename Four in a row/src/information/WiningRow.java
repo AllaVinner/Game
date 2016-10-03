@@ -23,6 +23,9 @@ public class WiningRow {
 			counter++;
 			occupation = DEAD;
 		}
+		if(counter > 4){
+			counter =4;
+		}
 	}
 	
 	public int getOccupation(){

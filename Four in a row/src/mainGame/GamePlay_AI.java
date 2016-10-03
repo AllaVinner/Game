@@ -1,14 +1,10 @@
 package mainGame;
-
-
-
 	import java.awt.Dimension;
 	import java.util.InputMismatchException;
 	import java.util.Scanner;
 
 import aI_Occupation.Player;
 import information.InformationHolder;
-
 
 	public class GamePlay_AI {
 
@@ -19,8 +15,11 @@ import information.InformationHolder;
 			int toWin =4;
 			Dimension cell = new Dimension(100,100);
 
-			Board myGame = new Board(numRow, numCol, toWin, cell);
-			Player aIPlayer = new Player(numRow, numCol, toWin, cell);
+			Board myGame = new Board(numRow, numCol, toWin, cell, true);
+			int [] c = {0,1, 2, 4, 8};
+			int k[] ={0,1,2,3,4};
+			double a = 1.0;
+			Player aIPlayer = new Player(numRow, numCol, toWin, cell, c, k , a);
 
 			int placeRow=-1;
 			int placeCol=-1;
@@ -39,7 +38,7 @@ import information.InformationHolder;
 						turn = Piece.GREEN;
 						break;
 					case Piece.EMPTY:
-						turn = Piece.GREEN;
+						turn = Piece.RED;
 						break;
 				}
 				if(turn == Piece.GREEN){
@@ -60,18 +59,14 @@ import information.InformationHolder;
 					}while(true);
 					aIPlayer.moveMade(placeRow, placeCol);
 				} else if(turn == Piece.RED){// end if green 
-					System.out.println(21);
 					placeCol = aIPlayer.makeMove();
 					placeRow= myGame.firstEmptyRow(placeCol);
-					System.out.println(22);
 					myGame.setPiece(placeRow, placeCol, Piece.RED);
 				}
 				
 				gameON =! myGame.checkForWin(placeRow, placeCol, turn);
 				moveNum++;
-				System.out.println(3);
 				myGame.getFrame().repaint();
-				System.out.println(4);
 				
 				if(moveNum == numCol*numRow){
 					gameON =false;
