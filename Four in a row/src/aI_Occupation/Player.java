@@ -16,27 +16,31 @@ public class Player {
 	// Player is player Red
 	private Board board;
 	
-	private int [] greenArray;
-	private int [] redArray;
+	private int [] opArray;
+	private int [] myArray;
 	private int boardValue=0;
 	private InformationHolder info;
 	private int [] c;
 	private int[] k;
 	private double a;
+	private int myTurn;
+	private int opTurn;
 	
 			 
-	public Player(int numRow, int numCol, int toWin, Dimension cell, int [] k, int [] c, double a){
+	public Player(int numRow, int numCol, int toWin, Dimension cell, int [] k, int [] c, double a, int turn){
 		this.board = new Board(numRow, numCol, toWin, cell, false);
 		info = new InformationHolder(numRow, numCol, toWin, cell);
 		this.k= new int [toWin+1];
 		this.c= new int [toWin+1];
 		this.a = a;
+		this.myTurn = turn;
+		this.opTurn = -1*turn;
 		
-		this.greenArray = new int [toWin+1];
-		this.redArray = new int [toWin+1];
-		for(int i=0; i < this.redArray.length; i++){
-			greenArray[i] =0;
-			redArray[i] =0;
+		this.opArray = new int [toWin+1];
+		this.myArray = new int [toWin+1];
+		for(int i=0; i < this.myArray.length; i++){
+			opArray[i] =0;
+			myArray[i] =0;
 			this.k[i] = k[i];
 			this.c[i] = c[i];
 		}
@@ -45,7 +49,7 @@ public class Player {
 	}
 	
 	public int makeMove(){
-		System.out.println("BoardValue: " + calculateBoardValue(redArray, greenArray));
+		System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 		int col=-10;
 		int tempValue =0;
 		int bestValue =-1000;
@@ -56,11 +60,19 @@ public class Player {
 		
 		if(col != NOIDIOTMOVE){
 			tempRow = board.firstEmptyRow(col);
-			this.board.setPiece(tempRow, col, Piece.RED);
-			this.info.picePlayed(tempRow, col, Piece.RED, true);
-			System.out.println("BoardValue: " + calculateBoardValue(redArray, greenArray));
+			this.board.setPiece(tempRow, col, myTurn);
+			this.info.picePlayed(tempRow, col, myTurn, true);
+			System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 			return col;
 		}
+		
+//		col = idiot3();
+//		if(col != NOIDIOTMOVE){
+//			tempRow = board.firstEmptyRow(col);
+//			this.board.setPiece(tempRow, col, Piece.RED);
+//			this.info.picePlayed(tempRow, col, Piece.RED, true);
+//			return col;
+//		}
 
 		// this.greenArray / red kommer hålla sig konstanta, info kommer skifta
 		
@@ -69,11 +81,20 @@ public class Player {
 				tempRow = this.board.firstEmptyRow(tempCol);
 				if(tempRow == Board.COLUMNFULL) throw new ColumnIsFullException();
 				// Place the fake piece
-				this.board.setPiece(tempRow, tempCol, Piece.RED);
-				this.info.picePlayed(tempRow, tempCol, Piece.RED, false);
+				this.board.setPiece(tempRow, tempCol, myTurn);
+				this.info.picePlayed(tempRow, tempCol, myTurn, false);
 				
 				// If good move, update the supposed move
-				tempValue = calculateBoardValue(this.info.getRedArray(), this.info.getGreenArray());
+				
+				switch(myTurn){
+				case Piece.GREEN:
+					tempValue = calculateBoardValue(this.info.getGreenArray(), this.info.getRedArray());
+					break;
+				case Piece.RED:
+					tempValue = calculateBoardValue(this.info.getRedArray(), this.info.getGreenArray());
+					break;
+				}
+				
 				if(tempValue > bestValue){
 					bestValue = tempValue;
 					col = tempCol;
@@ -83,8 +104,8 @@ public class Player {
 				//reset settings
 				this.board.setPiece(tempRow, tempCol, Piece.EMPTY);
 				this.info.picePlayed(tempRow, tempCol, Piece.EMPTY,false);
-				this.info.setGreenArray(this.greenArray);
-				this.info.setRedArray(this.redArray);
+				this.info.setGreenArray(this.opArray);
+				this.info.setRedArray(this.myArray);
 			}catch (ColumnIsFullException e){
 				columnValue[tempCol] = Board.COLUMNFULL;
 			}
@@ -96,9 +117,9 @@ public class Player {
 				if(col != Board.COLUMNFULL && tempRow != Board.COLUMNFULL){
 
 					if(secoundIdiotMove(tempRow, col) == NOIDIOTMOVE){
-						this.board.setPiece(tempRow, col, Piece.RED);
-						this.info.picePlayed(tempRow, col, Piece.RED, true);
-						System.out.println("BoardValue: " + calculateBoardValue(redArray, greenArray));
+						this.board.setPiece(tempRow, col, myTurn);
+						this.info.picePlayed(tempRow, col, myTurn, true);
+						System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 						return col;
 					}
 				}
@@ -107,9 +128,9 @@ public class Player {
 				col =getNBiggestIndex(columnValue, i);
 				tempRow = this.board.firstEmptyRow(col);
 				if(col != Board.COLUMNFULL && tempRow != Board.COLUMNFULL){
-					this.board.setPiece(tempRow, col, Piece.RED);
-					this.info.picePlayed(tempRow, col, Piece.RED, true);
-					System.out.println("BoardValue: " + calculateBoardValue(redArray, greenArray));
+					this.board.setPiece(tempRow, col, myTurn);
+					this.info.picePlayed(tempRow, col, myTurn, true);
+					System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 					return col;
 				}
 			}
@@ -117,11 +138,11 @@ public class Player {
 	}
 	
 	private int secoundIdiotMove(int row, int col) {
-		this.board.setPiece(row, col, Piece.RED);
+		this.board.setPiece(row, col, myTurn);
 		try{
-			this.board.setPiece(row-1, col, Piece.GREEN);
+			this.board.setPiece(row-1, col, opTurn);
 		
-		if(this.board.checkForWin(row-1, col, Piece.GREEN)){;
+		if(this.board.checkForWin(row-1, col, opTurn)){;
 				this.board.setPiece(row, col, Piece.EMPTY);
 				this.board.setPiece(row-1, col, Piece.EMPTY);
 				return IDIOTMOVE; 
@@ -133,14 +154,66 @@ public class Player {
 	}
 
 	public void moveMade(int playedRow, int playedCol){
-		this.board.setPiece(playedRow, playedCol, Piece.GREEN);
-		this.info.picePlayed(playedRow, playedCol, Piece.GREEN, true);
-		for(int i=0; i < this.greenArray.length; i++){
-			this.greenArray[i] = this.info.getGreenArray()[i];
-			this.redArray[i] = this.info.getRedArray()[i];
+		this.board.setPiece(playedRow, playedCol, opTurn);
+		this.info.picePlayed(playedRow, playedCol, opTurn, true);
+		for(int i=0; i < this.opArray.length; i++){
+			this.opArray[i] = this.info.getGreenArray()[i];
+			this.myArray[i] = this.info.getRedArray()[i];
 		}
-		this.boardValue= calculateBoardValue(this.redArray, this.greenArray);
+		this.boardValue= calculateBoardValue(this.myArray, this.opArray);
 		
+	}
+	
+	public int idiot3(){
+		int tempRow1=0;
+		int tempRow2=0;
+		int tempRow3=0;
+		
+		int counter=0;
+		int posCol=-1;
+		
+		for(int r1=0; r1 <this.board.getWidth(); r1++){
+			for(int g1=0; g1 <this.board.getWidth(); g1++){
+				for(int g2=0; g2 <this.board.getWidth(); g2++){
+					try{
+						tempRow1 = board.firstEmptyRow(r1);
+						if(tempRow1 == Board.COLUMNFULL) throw new ColumnIsFullException();
+						board.setPiece(tempRow1, r1, myTurn);
+						
+						tempRow2 = board.firstEmptyRow(g1);
+						if(tempRow1 == Board.COLUMNFULL) throw new ColumnIsFullException();
+						board.setPiece(tempRow2, g1, opTurn);
+						
+						tempRow3 = board.firstEmptyRow(g2);
+						if(tempRow1 == Board.COLUMNFULL) throw new ColumnIsFullException();
+						board.setPiece(tempRow3, g2, opTurn);
+						
+						if(board.checkForWin(tempRow3, g2, opTurn)){
+							counter ++;
+						}else {
+							posCol = r1;
+						}
+
+						board.setPiece(tempRow1, r1, Piece.EMPTY);
+						board.setPiece(tempRow2, g1, Piece.EMPTY);
+						board.setPiece(tempRow3, g2, Piece.EMPTY);
+						
+	
+					} catch (ColumnIsFullException e){}
+					
+					
+					
+				}
+			}
+		}
+		
+		
+		
+		if(counter > 1){
+			return posCol;
+		}else{
+			return NOIDIOTMOVE;
+		}
 	}
 	
 	public int calculateBoardValue(int [] myArray, int [] oppArray){
@@ -164,13 +237,13 @@ public class Player {
 	
 	public void printArray(){
 		System.out.println("Så här ligger grön till: ");
-		for(int i=0; i < greenArray.length; i++){
-			System.out.printf("Grön har %d st %d.\n", this.greenArray[i], i);
+		for(int i=0; i < opArray.length; i++){
+			System.out.printf("Grön har %d st %d.\n", this.opArray[i], i);
 		}
 		System.out.println();
 		System.out.println("Så här ligger röda till: ");
-		for(int i=0; i < greenArray.length; i++){
-			System.out.printf("Röd har %d st %d.\n", this.redArray[i], i);
+		for(int i=0; i < opArray.length; i++){
+			System.out.printf("Röd har %d st %d.\n", this.myArray[i], i);
 		}
 		
 	}
@@ -183,8 +256,8 @@ public class Player {
 				tempRow = this.board.firstEmptyRow(tempCol);
 				if(tempRow == Board.COLUMNFULL) throw new ColumnIsFullException();
 				
-				this.board.setPiece(tempRow, tempCol, Piece.RED);
-				if(this.board.checkForWin(tempRow, tempCol, Piece.RED)) { 
+				this.board.setPiece(tempRow, tempCol, myTurn);
+				if(this.board.checkForWin(tempRow, tempCol, opTurn)) { 
 					this.board.setPiece(tempRow, tempCol, Piece.EMPTY);
 					System.out.println(" idiot red");
 					return tempCol;
@@ -199,8 +272,8 @@ public class Player {
 				tempRow = this.board.firstEmptyRow(tempCol);
 				if(tempRow == Board.COLUMNFULL) throw new ColumnIsFullException();
 				
-				this.board.setPiece(tempRow, tempCol, Piece.GREEN);
-				if(this.board.checkForWin(tempRow, tempCol, Piece.GREEN)) {
+				this.board.setPiece(tempRow, tempCol, opTurn);
+				if(this.board.checkForWin(tempRow, tempCol, opTurn)) {
 					System.out.println("idiot gröna");
 					this.board.setPiece(tempRow, tempCol, Piece.EMPTY);
 					return tempCol;
@@ -278,6 +351,7 @@ public class Player {
 			System.out.println(i);
 		}
 	}
+	
 	
 	public static void drawBoard(int[][] board){
 		

@@ -32,9 +32,6 @@ public class InformationHolder{
 			redArray[i] = 0;
 		}
 		
-		int [] valueRow ={1, 2, 3, 3, 2, 1};
-		int [] valueColumn = {1, 2, 3, 4, 3, 2, 1};
-		
 		for(int tempRow=0; tempRow< numRow; tempRow++){
 			for(int tempCol=0; tempCol<numCol; tempCol++){
 				pointerMatrix[tempRow][tempCol] = new CellPointer( VALUEBOARD[tempRow][tempCol],tempRow, tempCol);
