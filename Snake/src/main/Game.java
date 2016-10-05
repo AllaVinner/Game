@@ -32,8 +32,8 @@ public class Game  {
 		
 		// Create Board
 		board = new JFrame("Snake");
-		size = new Dimension(10, 10);
-		cell = new Dimension(50, 50);
+		size = new Dimension(20, 20);
+		cell = new Dimension(15, 15);
 		snake = new Snake(size.width, size.height);
 		
 		

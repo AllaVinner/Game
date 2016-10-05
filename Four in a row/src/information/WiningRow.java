@@ -15,6 +15,11 @@ public class WiningRow {
 		this.occupation=Piece.EMPTY;
 	}
 	
+	public void reset(){
+		this.counter=0;
+		this.occupation=Piece.EMPTY;
+	}
+	
 	public void pieceSet(int turn){
 		if(turn == this.occupation || this.occupation == Piece.EMPTY){
 			counter++;

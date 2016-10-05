@@ -18,7 +18,6 @@ public class Player {
 	
 	private int [] opArray;
 	private int [] myArray;
-	private int boardValue=0;
 	private InformationHolder info;
 	private int [] c;
 	private int[] k;
@@ -48,8 +47,22 @@ public class Player {
 		
 	}
 	
+	public void reset(){
+		for(int i=0; i < opArray.length; i++){
+			opArray[i] =0;
+			myArray[i] =0;
+		}
+		this.board.reset();
+		this.info.reset();
+	}
+	
+	public void setConstants(int [] c, int [] k, double a){
+		this.c = c.clone();
+		this.k = k.clone();
+		this.a = a;
+	}
+	
 	public int makeMove(){
-		System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 		int col=-10;
 		int tempValue =0;
 		int bestValue =-1000;
@@ -58,12 +71,13 @@ public class Player {
 		
 		col = idiotMove();
 		
-		if(col != NOIDIOTMOVE){
+		if(col != NOIDIOTMOVE  && col != Board.COLUMNFULL){
 			tempRow = board.firstEmptyRow(col);
-			this.board.setPiece(tempRow, col, myTurn);
-			this.info.picePlayed(tempRow, col, myTurn, true);
-			System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
-			return col;
+			if(tempRow != Board.COLUMNFULL){
+				this.board.setPiece(tempRow, col, myTurn);
+				this.info.picePlayed(tempRow, col, myTurn, true);
+				return col;
+			}
 		}
 		
 //		col = idiot3();
@@ -119,7 +133,6 @@ public class Player {
 					if(secoundIdiotMove(tempRow, col) == NOIDIOTMOVE){
 						this.board.setPiece(tempRow, col, myTurn);
 						this.info.picePlayed(tempRow, col, myTurn, true);
-						System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 						return col;
 					}
 				}
@@ -130,7 +143,6 @@ public class Player {
 				if(col != Board.COLUMNFULL && tempRow != Board.COLUMNFULL){
 					this.board.setPiece(tempRow, col, myTurn);
 					this.info.picePlayed(tempRow, col, myTurn, true);
-					System.out.println("BoardValue: " + calculateBoardValue(myArray, opArray));
 					return col;
 				}
 			}
@@ -160,7 +172,6 @@ public class Player {
 			this.opArray[i] = this.info.getGreenArray()[i];
 			this.myArray[i] = this.info.getRedArray()[i];
 		}
-		this.boardValue= calculateBoardValue(this.myArray, this.opArray);
 		
 	}
 	

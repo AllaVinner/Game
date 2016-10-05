@@ -12,6 +12,8 @@ public class InformationHolder{
 	private WiningRow [] winningArray;
 	private int [] greenArray;
 	private int [] redArray;
+	private int numRow;
+	private int numCol;
 	
 	/**
 	 *
@@ -21,6 +23,9 @@ public class InformationHolder{
 	 * @param cell
 	 */
 	public InformationHolder(int numRow, int numCol, int toWin, Dimension cell){
+		this.numRow = numRow;
+		this.numCol =numCol;
+		
 		
 		pointerMatrix = new CellPointer [numRow][numCol];
 		
@@ -102,6 +107,25 @@ public class InformationHolder{
 
 		} // for end
 	} // method end
+	
+	public void reset(){
+		for(int i=0; i<greenArray.length; i++){
+			greenArray[i] = 0;
+			redArray[i] = 0;
+		}
+		
+		for(int tempRow=0; tempRow< numRow; tempRow++){
+			for(int tempCol=0; tempCol<numCol; tempCol++){
+				pointerMatrix[tempRow][tempCol] = new CellPointer( VALUEBOARD[tempRow][tempCol],tempRow, tempCol);
+				pointerMatrix[tempRow][tempCol].giveArrayValue();
+			}
+		}
+		
+		for(int i=0; i < winningArray.length; i++){
+			winningArray[i].reset();
+		}
+		
+	}
 	
 	public void printArray(){
 		System.out.println("Så här ligger grön till: ");
