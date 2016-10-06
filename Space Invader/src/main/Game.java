@@ -46,6 +46,7 @@ public class Game {
 	}
 	
 	public void nextLap(){
+		int counter =0;
 		ship.nextLap();
 		cruse.next();
 		

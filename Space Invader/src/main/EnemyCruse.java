@@ -26,6 +26,7 @@ public class EnemyCruse {
 	}
 	
 	public void next(){
+		int counter =0;
 		for (EnemyShip c : cruse) {
 			c.move(dir);
 			
@@ -36,13 +37,35 @@ public class EnemyCruse {
 				dir = -1*dir;
 				down();	
 			}
-	
 		}
+		
+		for (EnemyShip c : cruse) {
+			if(c.getY() > 450){
+				reset();	
+			}
+			
+			if(! c.getLive()){
+				counter ++;
+			}
+		}
+		
+		if(counter > 4){
+			reset();
+			counter =0;
+		}
+		
+		
 	}
 	
 	public void down(){
 		for (EnemyShip c : cruse) {
 			c.down();
+		}
+	}
+	
+	public void reset(){
+		for(int i=0; i< 5; i++){
+			cruse.get(i).reset(50+100*i);
 		}
 	}
 	

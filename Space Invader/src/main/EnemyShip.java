@@ -6,11 +6,13 @@ public class EnemyShip {
 	private double x;
 	private double y;
 	private double r;
+	private boolean alive;
 	
 	public EnemyShip(double x){
 		this.x = x;
 		this.y = 50;
 		this.r = 50;
+		alive = true;
 	}
 	
 	public double getX(){
@@ -42,6 +44,22 @@ public class EnemyShip {
 	
 	public void hit(){
 		r-=10;
+		if(r <= 9){
+			alive =false;
+		}
 	}
+	
+	public void reset(double x){
+		this.x = x;
+		this.y = 50;
+		this.r = 50;
+		alive =true;
+	}
+	
+	public boolean getLive(){
+		return alive;
+	}
+	
+	
 	
 }
