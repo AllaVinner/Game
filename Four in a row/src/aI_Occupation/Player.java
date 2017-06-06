@@ -9,7 +9,7 @@ import mainGame.Piece;
 
 public class Player {
 	
-	// Is this Git thing working?
+	
 	
 	public static final int NOIDIOTMOVE = -11;
 	public static final int IDIOTMOVE = -17;
@@ -90,7 +90,7 @@ public class Player {
 //			return col;
 //		}
 
-		// this.greenArray / red kommer hålla sig konstanta, info kommer skifta
+		// this.greenArray / red kommer hÃ¥lla sig konstanta, info kommer skifta
 		
 		for(int tempCol=0; tempCol < this.board.getWidth(); tempCol++){
 			try{
@@ -249,14 +249,14 @@ public class Player {
 	
 	
 	public void printArray(){
-		System.out.println("Så här ligger grön till: ");
+		System.out.println("SÃ¥ hÃ¤r ligger grÃ¶n till: ");
 		for(int i=0; i < opArray.length; i++){
-			System.out.printf("Grön har %d st %d.\n", this.opArray[i], i);
+			System.out.printf("GrÃ¶n har %d st %d.\n", this.opArray[i], i);
 		}
 		System.out.println();
-		System.out.println("Så här ligger röda till: ");
+		System.out.println("SÃ¥ hÃ¤r ligger rÃ¶da till: ");
 		for(int i=0; i < opArray.length; i++){
-			System.out.printf("Röd har %d st %d.\n", this.myArray[i], i);
+			System.out.printf("RÃ¶d har %d st %d.\n", this.myArray[i], i);
 		}
 		
 	}
@@ -287,7 +287,7 @@ public class Player {
 				
 				this.board.setPiece(tempRow, tempCol, opTurn);
 				if(this.board.checkForWin(tempRow, tempCol, opTurn)) {
-					System.out.println("idiot gröna");
+					System.out.println("idiot grÃ¶na");
 					this.board.setPiece(tempRow, tempCol, Piece.EMPTY);
 					return tempCol;
 				}
