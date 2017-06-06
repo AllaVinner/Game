@@ -9,6 +9,8 @@ import mainGame.Piece;
 
 public class Player {
 	
+	// Is this Git thing working?
+	
 	public static final int NOIDIOTMOVE = -11;
 	public static final int IDIOTMOVE = -17;
 	

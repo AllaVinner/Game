@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class Game  {
+	Color c = new Color(200);
 	
 	private JFrame board;
 	private Dimension size;
@@ -25,7 +26,11 @@ public class Game  {
 	private Food food;
 	
 	public static void main(String[] args) {
-		new Game();
+		Game go = new Game();
+		while(true){
+			go.nextLap();
+			
+		}
 		
 	}
 	
@@ -95,9 +100,11 @@ public class Game  {
 			Shape head = new Rectangle(snake.getX()*cell.width, snake.getY()*cell.height, cell.width, cell.height);
 			graph2.fill(head);
 			
+			
 			//Draw Tail
-			graph2.setPaint(Color.GRAY);
+			
 			for(int i=0; i < snake.getTail().size(); i++){
+				graph2.setPaint( new Color(255 - 200 * i/snake.getTail().size()));
 				Shape tail = new Rectangle(snake.getTail().get(i).getPosX()*cell.width, snake.getTail().get(i).getPosY()*cell.height, cell.width, cell.height);
 				graph2.fill(tail);
 			}
